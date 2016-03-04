@@ -38,6 +38,16 @@ _The goal of this code review is to show understanding and competency with php a
 * Did you include a README with a description of the program, setup instructions, a copyright, a license, and your name?
 * Is the project tracked in Git, and did you regularly make commits with clear messages that finish the phrase "This commit will…"?
 
+## SQL commands
+
+The following SQL commands were used to setup the databases used by this project:
+
+    CREATE DATABASE shoes;
+    USE shoes;
+    CREATE TABLE brands (id serial PRIMARY KEY, name VARCHAR(255));
+    CREATE TABLE stores (id serial PRIMARY KEY, name VARCHAR(255));
+    CREATE TABLE brands_stores (id serial PRIMARY KEY, store_id INT, brand_id INT);
+
 ## Setup/Installation Requirements
 
 1. _Fork and clone this repository from_ [gitHub](https://github.com/joekarasek/epicodus-php-address_book.git).
@@ -47,9 +57,7 @@ _The goal of this code review is to show understanding and competency with php a
 
 ## Known Bugs
 
-_This application is not fully designed and may have unknown bugs._
-
-_Currently, instants of Contact are assigned a random 6 digit ID. There is a tiny chance that multiple contacts may share an ID, deleting one of those contacts will cause the first (in order of creation) contact with that ID to be deleted._
+_This application is not fully tested and may have unknown bugs._
 
 ## Support and contact details
 
