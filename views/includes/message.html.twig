@@ -1,5 +1,20 @@
 {% if message %}
-    <div class="chip">
-        {{ message.text }}
+  <div class="row">
+    <div class="col l10 offset-l1">
+      <div class="card blue darken-4">
+        <div class="card-content white-text">
+          <span class="card-title">{{ message.title }}</span>
+          <p>{{ message.text }}</p>
+        </div>
+        <div class="card-action">
+          {% if message.link1 %}
+            <a href="{{ message.link1.link }}">{{ message.link1.text }}</a>
+          {% endif %}
+          {% if message.link2 %}
+            <a href="{{ message.link2.link }}">{{ message.link2.text }}</a>
+          {% endif %}
+        </div>
+      </div>
     </div>
+  </div>
 {% endif %}
