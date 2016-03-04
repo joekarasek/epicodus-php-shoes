@@ -52,7 +52,8 @@
         {
             $query = $GLOBALS['DB']->query("SELECT brands.* FROM
                 brands_stores JOIN brands ON(brands_stores.brand_id = brands.id )
-                WHERE store_id = {$this->getId()};");
+                WHERE store_id = {$this->getId()}
+                ORDER BY name ASC;");
             $brands = $query->fetchAll(PDO::FETCH_ASSOC);
             $results = array();
             foreach ($brands as $brand) {
