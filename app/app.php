@@ -39,6 +39,7 @@
     $app->get("/stores", function() use ($app) {
         return $app['twig']->render('stores.html.twig', array(
             'navbar' => true,
+            'stores' => Store::getAll(),
             'message' => array(
                 'title' => 'Stores!',
                 'text' => 'Below is a list of stores in our database. Feel free to add a store. Click on a store to see its brands and add brands to that store.',
@@ -54,14 +55,16 @@
         return $app['twig']->render('stores.html.twig', array(
             'navbar' => true,
             'message' => array(
-                'title' => 'Stores!',
+                'title' => 'Add Stores!',
                 'text' => 'Use the form below to add a store to our database! Or, click back to go back!',
                 'link1' => array(
                     'link' => '/stores',
                     'text' => 'Back'
                 )
             ),
-            'form' => true
+            'form' => array(
+                'action' => '/stores/addStore'
+            )
         ));
     });
 
@@ -86,6 +89,61 @@
             ),
             'form' => true
         ));
+    });
+
+    $app->get("/brands", function() use ($app) {
+      return $app['twig']->render('brands.html.twig', array(
+        'navbar' => true,
+        'brands' => Brand::getAll(),
+        'message' => array(
+          'title' => 'Brands!',
+          'text' => 'Below is a list of brands in our database. Feel free to add a brand. Click on a brand to add stores to that brand.',
+          'link1' => array(
+            'link' => '/brands/addBrandForm',
+            'text' => 'Add a Brand'
+          )
+        )
+      ));
+    });
+
+    $app->get("/brands/addBrandForm", function() use ($app) {
+      return $app['twig']->render('brands.html.twig', array(
+        'navbar' => true,
+        'message' => array(
+          'title' => 'Add Brands!',
+          'text' => 'Use the form below to add a brand to our database! Or, click back to go back!',
+          'link1' => array(
+            'link' => '/brands',
+            'text' => 'Back'
+          )
+        ),
+        'form' => array(
+            'action' => '/brands/addBrand'
+        )
+      ));
+    });
+
+    $app->post("/brands/addBrand", function() use ($app) {
+      if (!Brand::findByName($_POST['name'])) {
+        $new_brand = new Brand($_POST['name']);
+        $new_brand->save();
+        $message_text = $_POST['name'] . ' was added to our database! Use the form below to add another brand, or click back to go back!';
+      } else {
+        $message_text = $_POST['name'] . ' already exists in out database! Try creating a brand with a different name!';
+      }
+
+      return $app['twig']->render('brands.html.twig', array(
+        'navbar' => true,
+        'message' => array(
+          'title' => 'Brands!',
+          'text' => $message_text,
+          'link1' => array(
+            'link' => '/brands',
+            'text' => 'Back'
+          )
+        ),
+        'form' => true
+      ));
     });
 
     return $app;

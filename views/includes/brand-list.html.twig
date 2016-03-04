@@ -1,0 +1,19 @@
+{% for brand in brands %}
+  <div class="col l9 offset-l2">
+    <div class="card blue lighten-2 z-depth-1">
+      <div class="card-content white-text">
+        <span class="card-title">{{ brand.getName() }}</span>
+        {% set stores = brand.getStores() %}
+        <p>Stores:</p>
+        <ul>
+          {% for store in stores %}
+            <li>{{ store.getName() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="card-action">
+          <a href="/brands/{{ store.getId( )}}/addStoreForm">Add Store to Brand</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}

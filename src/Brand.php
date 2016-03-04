@@ -26,9 +26,30 @@
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
+        function addStore($store)
+        {
+          $GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$this->getId()}, {$store->getId()});");
+        }
+
+        function getStores()
+        {
+          $query = $GLOBALS['DB']->query("SELECT stores.* FROM
+            brands_stores JOIN stores ON(brands_stores.store_id = stores.id )
+            WHERE brand_id = {$this->getId()};");
+            $stores = $query->fetchAll(PDO::FETCH_ASSOC);
+            $results = array();
+            foreach ($stores as $store) {
+              $name = $store['name'];
+              $id = $store['id'];
+              $new_store = new Store($name, $id);
+              array_push($results, $new_store);
+            }
+            return $results;
+          }
+
         static function getAll()
         {
-            $returned_brands = $GLOBALS['DB']->query("SELECT * FROM brands;");
+            $returned_brands = $GLOBALS['DB']->query("SELECT * FROM brands ORDER BY name ASC;");
             $brands = array();
             foreach ($returned_brands as $brand) {
                 $name = $brand['name'];
@@ -37,27 +58,6 @@
                 array_push($brands, $new_brand);
             }
             return $brands;
-        }
-
-        function addStore($store)
-        {
-            $GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$this->getId()}, {$store->getId()});");
-        }
-
-        function getStores()
-        {
-            $query = $GLOBALS['DB']->query("SELECT stores.* FROM
-                brands_stores JOIN stores ON(brands_stores.store_id = stores.id )
-                WHERE brand_id = {$this->getId()};");
-            $stores = $query->fetchAll(PDO::FETCH_ASSOC);
-            $results = array();
-            foreach ($stores as $store) {
-                $name = $store['name'];
-                $id = $store['id'];
-                $new_store = new Store($name, $id);
-                array_push($results, $new_store);
-            }
-            return $results;
         }
 
         static function deleteAll()
@@ -72,6 +72,18 @@
             $brands = Brand::getAll();
             foreach ($brands as $brand) {
                 if ($brand->getId() == $search_id) {
+                    $found_brand = $brand;
+                }
+            }
+            return $found_brand;
+        }
+
+        static function findByName($search_name)
+        {
+            $found_brand = NULL;
+            $brands = Brand::getAll();
+            foreach ($brands as $brand) {
+                if ($brand->getName() == $search_name) {
                     $found_brand = $brand;
                 }
             }
