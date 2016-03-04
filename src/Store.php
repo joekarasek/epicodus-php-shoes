@@ -97,11 +97,10 @@
 
         static function findByName($search_name)
         {
-            $found_store = NULL;
             $stores = Store::getAll();
             foreach ($stores as $store) {
                 if ($store->getName() == $search_name) {
-                    return true;
+                    return $store;
                 }
             }
             return false;

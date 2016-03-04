@@ -80,14 +80,13 @@
 
         static function findByName($search_name)
         {
-            $found_brand = NULL;
             $brands = Brand::getAll();
             foreach ($brands as $brand) {
                 if ($brand->getName() == $search_name) {
-                    $found_brand = $brand;
+                    return $brand;
                 }
             }
-            return $found_brand;
+            return false;
         }
     }
  ?>

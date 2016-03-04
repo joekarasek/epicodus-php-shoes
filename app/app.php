@@ -74,7 +74,7 @@
           $new_store->save();
           $message_text = $_POST['name'] . ' was added to our database! Use the form below to add another store, or click back to go back!';
         } else {
-          $message_text = $_POST['name'] . ' already exists in out database! Try creating a store with a different name!';
+          $message_text = $_POST['name'] . ' already exists in our database! Try creating a store with a different name!';
         }
 
         return $app['twig']->render('stores.html.twig', array(
@@ -89,6 +89,55 @@
             ),
             'form' => true
         ));
+    });
+
+    $app->get("/stores/{store_id}/addBrandForm", function($store_id) use ($app) {
+      $store = Store::find($store_id);
+
+      return $app['twig']->render('stores.html.twig', array(
+        'navbar' => true,
+        'message' => array(
+          'title' => 'Add a brand to the store ' . $store->getName() . '!',
+          'text' => 'Use the form below to add a brand to the store ' . $store->getName(),
+          'link1' => array(
+            'link' => '/stores',
+            'text' => 'Back'
+          )
+        ),
+        'form' => array(
+            'action' => '/stores' . '/' . $store_id . '/addBrand'
+        )
+      ));
+    });
+
+    $app->post("/stores/{store_id}/addBrand", function($store_id) use ($app) {
+      $store = Store::find($store_id);
+      $brand = Brand::findByName($_POST['name']);
+
+      if ($brand) {
+        $store->addBrand($brand);
+        $message_text = $brand->getName() . ' was added to the store ' . $store->getName();
+      } else {
+        $brand = new Brand($_POST['name']);
+        $brand->save();
+        $store->addBrand($brand);
+        $message_text = $brand->getName() . ' was created and added to the store ' . $store->getName();
+      }
+
+      return $app['twig']->render('stores.html.twig', array(
+        'navbar' => true,
+        'message' => array(
+          'title' => 'Add another brand to the store ' . $store->getName() . '!',
+          'text' => $message_text,
+          'link1' => array(
+            'link' => '/stores',
+            'text' => 'Back'
+          )
+        ),
+        'form' => array(
+            'action' => '/stores' . '/' . $store_id . '/addBrand'
+        )
+      ));
     });
 
     $app->get("/brands", function() use ($app) {
@@ -129,7 +178,7 @@
         $new_brand->save();
         $message_text = $_POST['name'] . ' was added to our database! Use the form below to add another brand, or click back to go back!';
       } else {
-        $message_text = $_POST['name'] . ' already exists in out database! Try creating a brand with a different name!';
+        $message_text = $_POST['name'] . ' already exists in our database! Try creating a brand with a different name!';
       }
 
       return $app['twig']->render('brands.html.twig', array(
@@ -142,7 +191,58 @@
             'text' => 'Back'
           )
         ),
-        'form' => true
+        'form' => array(
+            'action' => '/brands/addBrand'
+        )
+      ));
+    });
+
+    $app->get("/brands/{brand_id}/addStoreForm", function($brand_id) use ($app) {
+      $brand = Brand::find($brand_id);
+
+      return $app['twig']->render('brands.html.twig', array(
+        'navbar' => true,
+        'message' => array(
+          'title' => 'Add a store to the brand ' . $brand->getName() . '!',
+          'text' => 'Use the form below to add a store to the brand ' . $brand->getName(),
+          'link1' => array(
+            'link' => '/brands',
+            'text' => 'Back'
+          )
+        ),
+        'form' => array(
+            'action' => '/brands' . '/' . $brand_id . '/addStore'
+        )
+      ));
+    });
+
+    $app->post("/brands/{brand_id}/addStore", function($brand_id) use ($app) {
+      $brand = Brand::find($brand_id);
+      $store = Store::findByName($_POST['name']);
+
+      if ($store) {
+        $brand->addStore($store);
+        $message_text = $store->getName() . ' was added to the brand ' . $brand->getName();
+      } else {
+        $store = new Store($_POST['name']);
+        $store->save();
+        $brand->addStore($store);
+        $message_text = $store->getName() . ' was created and added to the brand ' . $brand->getName();
+      }
+
+      return $app['twig']->render('brands.html.twig', array(
+        'navbar' => true,
+        'message' => array(
+          'title' => 'Add another store to the brand ' . $brand->getName() . '!',
+          'text' => $message_text,
+          'link1' => array(
+            'link' => '/brands',
+            'text' => 'Back'
+          )
+        ),
+        'form' => array(
+            'action' => '/brands' . '/' . $brand_id . '/addStore'
+        )
       ));
     });
 
