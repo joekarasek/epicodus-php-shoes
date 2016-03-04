@@ -36,5 +36,33 @@
         ));
     });
 
+    $app->get("/stores", function() use ($app) {
+        return $app['twig']->render('stores.html.twig', array(
+            'navbar' => true,
+            'message' => array(
+                'title' => 'Stores!',
+                'text' => 'Below is a list of stores in our database. Feel free to add a store. Click on a store to see its brands and add brands to that store.',
+                'link1' => array(
+                    'link' => '/stores/addStoreForm',
+                    'text' => 'Add a Store'
+                )
+            )
+        ));
+    });
+
+    $app->get("/stores/addStoreForm", function() use ($app) {
+        return $app['twig']->render('stores.html.twig', array(
+            'navbar' => true,
+            'message' => array(
+                'title' => 'Stores!',
+                'text' => 'Use the form below to add a store to our database!',
+                'link1' => array(
+                    'link' => '/stores',
+                    'text' => 'Back'
+                )
+            )
+        ));
+    });
+
     return $app;
 ?>
