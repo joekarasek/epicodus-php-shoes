@@ -55,12 +55,36 @@
             'navbar' => true,
             'message' => array(
                 'title' => 'Stores!',
-                'text' => 'Use the form below to add a store to our database!',
+                'text' => 'Use the form below to add a store to our database! Or, click back to go back!',
                 'link1' => array(
                     'link' => '/stores',
                     'text' => 'Back'
                 )
-            )
+            ),
+            'form' => true
+        ));
+    });
+
+    $app->post("/stores/addStore", function() use ($app) {
+        if (!Store::findByName($_POST['name'])) {
+          $new_store = new Store($_POST['name']);
+          $new_store->save();
+          $message_text = $_POST['name'] . ' was added to our database! Use the form below to add another store, or click back to go back!';
+        } else {
+          $message_text = $_POST['name'] . ' already exists in out database! Try creating a store with a different name!';
+        }
+
+        return $app['twig']->render('stores.html.twig', array(
+            'navbar' => true,
+            'message' => array(
+                'title' => 'Stores!',
+                'text' => $message_text,
+                'link1' => array(
+                    'link' => '/stores',
+                    'text' => 'Back'
+                )
+            ),
+            'form' => true
         ));
     });
 

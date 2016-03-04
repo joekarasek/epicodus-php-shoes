@@ -1,9 +1,11 @@
 {% if form %}
-  <form action='' method=''>
-    <div class="form-group">
-      <label for=''></label>
-      <input name='' id='' type='text' class='form-control'>
+  <form action='/stores/addStore' method='post'>
+    <div class="row">
+      <div class="input-field col l10 offset-l1">
+        <label for="name">Name:</label>
+        <br>
+        <input id="name" name="name" type="text" class="validate">
+       </div>
     </div>
-    <button type='submit' class='btn btn-success'>Submit</button>
   </form>
 {% endif %}
