@@ -1,19 +1,37 @@
-# _Template for PHP w/ Silex, Twig, and PHPUnit_
+# _Shoe Stores App_
 
-#### _A simple template, 2.12.2016_
+#### _An app for search shoe brands and stores, Week 4 Code Review, 3.04.2016_
 
 ### By _**Joseph Karasek**_
 
 ## Description
 
-_This web app is designed to collect and display contact information for a number of people (basic address book). Contacts can be created, stored, deleted individually, or deleted as a group. The app was built using the micro-framework Silex, as well as Bootstrap._
+_This web app is designed to collect information on shoe brands, shoe stores, and which stores carry which brands. This is the final code review exercise for the Epicodus Level 2 PHP class._
 
-_The goal of this code review is to show basic understanding and competency with php and the Silex micro-framework, including the ability to create, store, and delete instants of a given class._
+_The goal of this code review is to show understanding and competency with php and the Silex micro-framework, including the ability to create, store, and delete instants of a given class, use of databases to store information using SQL, and creating and using join tables and searches._
 
-_The code review will consider the following criteria.._
-* Does your Contact object have all our ingredients? It should have a constructor, private properties, getters, setters, a save method, a getAll method and a deleteAll method.
-* Were Twig template files used for all pages?
-* Are Contacts being saved into the session and cleared correctly?
+#### Program Requirements:
+
+* Write a program to list out local shoe stores and the brands of shoes they carry. Make a Store class and a Brand class.
+* Create a database called shoes and a testing database called shoes_test, and remember to follow proper naming conventions for your tables and columns. As you create your tables, copy all MySQL commands into your readme file.
+* Build full CRUD functionality for Stores. Create, Read (all and singular), Update, Delete (all and singular).
+* Allow a user to create Brands that are assigned to a Store. Don't worry about building out updating or deleting for brands.
+* There is a many-to-many relationship between brands and shoe stores, so many shoe stores can carry many brands and a brand of shoes can be carried in many stores. Create a join table to store these relationships.
+* When a user is viewing a single store, list out all of the brands that have been added so far to that store and allow them to add a brand to that store. Create a method to get the brands sold at a store, and use a join statement in it.
+* When a user is viewing a single Brand, list out all of the Stores that carry that brand and allow them to add a Store to that Brand. Use a join statement in this method too.
+* When you are finished with the assignment, make sure to export your databases and commit the .sql files for both the app database and the test database.
+
+#### Objectives
+
+* Do the database table and column names follow proper naming conventions?
+* Are all tests passing?
+* Did you write the test methods and make them pass before starting on Silex routes for each class?
+* Does your Store class have all CRUD methods implemented in your app? That includes: Create, Read (all and singular) Update and Delete (all and singular).
+* Are you able to view all the brands sold at a single store, as well as all the stores selling a particular brand?
+* Is the many-to-many relationship set up correctly in the database?
+* Did you use join statements?
+* Are the commands on how to setup the database in the README? Did you include the .sql files?
+* Were Twig template files used for all Silex pages?
 * Is your logic easy to understand?
 * Did you use descriptive variable names?
 * Does your code have proper indentation and spacing?
