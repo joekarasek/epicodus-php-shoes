@@ -140,6 +140,24 @@
       ));
     });
 
+    $app->get("/stores/{store_id}/deleteStore", function($store_id) use ($app) {
+      $store = Store::find($store_id);
+      $store->delete();
+
+      return $app['twig']->render('stores.html.twig', array(
+        'navbar' => true,
+        'stores' => Store::getAll(),
+        'message' => array(
+          'title' => $store->getName() . ' was deleted!',
+          'text' => $store->getName() . ' was deleted!',
+          'link1' => array(
+            'link' => '/stores',
+            'text' => 'Back'
+          )
+        )
+      ));
+    });
+
     $app->get("/brands", function() use ($app) {
       return $app['twig']->render('brands.html.twig', array(
         'navbar' => true,
@@ -242,6 +260,24 @@
         ),
         'form' => array(
             'action' => '/brands' . '/' . $brand_id . '/addStore'
+        )
+      ));
+    });
+
+    $app->get("/brands/{brand_id}/deleteBrand", function($brand_id) use ($app) {
+      $brand = Brand::find($brand_id);
+      $brand->delete();
+
+      return $app['twig']->render('brands.html.twig', array(
+        'navbar' => true,
+        'brands' => Brand::getAll(),
+        'message' => array(
+          'title' => $brand->getName() . ' was deleted!',
+          'text' => $brand->getName() . ' was deleted!',
+          'link1' => array(
+            'link' => '/brands',
+            'text' => 'Back'
+          )
         )
       ));
     });
