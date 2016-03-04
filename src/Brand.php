@@ -39,6 +39,27 @@
             return $brands;
         }
 
+        function addStore($store)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$this->getId()}, {$store->getId()});");
+        }
+
+        function getStores()
+        {
+            $query = $GLOBALS['DB']->query("SELECT stores.* FROM
+                brands_stores JOIN stores ON(brands_stores.store_id = stores.id )
+                WHERE brand_id = {$this->getId()};");
+            $stores = $query->fetchAll(PDO::FETCH_ASSOC);
+            $results = array();
+            foreach ($stores as $store) {
+                $name = $store['name'];
+                $id = $store['id'];
+                $new_store = new Store($name, $id);
+                array_push($results, $new_store);
+            }
+            return $results;
+        }
+
         static function deleteAll()
         {
             $GLOBALS['DB']->query("DELETE FROM brands;");

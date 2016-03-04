@@ -6,6 +6,7 @@
     */
 
     require_once __DIR__ . '/../src/Brand.php';
+    require_once __DIR__ . '/../src/Store.php';
 
     $server = 'mysql:host=localhost:8889;dbname=shoes_test';
     $username = 'root';
@@ -17,6 +18,7 @@
         protected function tearDown()
         {
             Brand::deleteAll();
+            Store::deleteAll();
         }
 
         function test_save()
@@ -103,6 +105,48 @@
 
             // Assert
             $this->assertEquals($test_brand, $result);
+        }
+
+        function test_addStore()
+        {
+            // Arrange
+            $name = 'Shoe-porium';
+            $test_store = new Store($name);
+            $test_store->save();
+
+            $name2 = 'Nike';
+            $test_brand = new Brand($name2);
+            $test_brand->save();
+
+            // Act
+            $test_brand->addStore($test_store);
+
+            // Assert
+            $this->assertEquals([$test_store], $test_brand->getStores());
+        }
+
+        function test_getStores()
+        {
+            // Arrange
+            $name = 'Shoe-porium';
+            $test_store = new Store($name);
+            $test_store->save();
+
+            $name2 = 'The Shoe Wareshouse';
+            $test_store2 = new Store($name2);
+            $test_store2->save();
+
+            $name3 = 'Nike';
+            $test_brand = new Brand($name3);
+            $test_brand->save();
+
+            // Act
+            $test_brand->addStore($test_store);
+            $test_brand->addStore($test_store2);
+            $store_results = $test_brand->getStores();
+
+            // Assert
+            $this->assertEquals([$test_store, $test_store2], $store_results);
         }
 
     }

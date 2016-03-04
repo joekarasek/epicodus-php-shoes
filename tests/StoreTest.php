@@ -25,14 +25,14 @@
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
+            $test_store = new Store($name);
 
             // Act
-            $test_Store->save();
+            $test_store->save();
 
             // Assert
             $result = Store::getAll();
-            $this->assertEquals($test_Store, $result[0]);
+            $this->assertEquals($test_store, $result[0]);
         }
 
         function test_getId()
@@ -40,10 +40,10 @@
             // Arrange
             $name = 'Shoe-porium';
             $id = 1;
-            $test_Store = new Store($name, $id);
+            $test_store = new Store($name, $id);
 
             // Act
-            $result = $test_Store->getId();
+            $result = $test_store->getId();
 
             // Assert
             $this->assertEquals(1, $result);
@@ -53,17 +53,17 @@
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
             $name2 = 'Marth Stewart';
-            $test_Store2 = new Store($name2);
-            $test_Store2->save();
+            $test_store2 = new Store($name2);
+            $test_store2->save();
 
             // Act
             $result = Store::getAll();
 
             // Assert
-            $this->assertEquals([$test_Store, $test_Store2], $result);
+            $this->assertEquals([$test_store, $test_store2], $result);
 
         }
 
@@ -71,11 +71,11 @@
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
             $name2 = 'Shoe Warehouse';
-            $test_Store2 = new Store($name2);
-            $test_Store2->save();
+            $test_store2 = new Store($name2);
+            $test_store2->save();
 
             // Act
             Store::deleteAll();
@@ -90,31 +90,31 @@
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
             $name2 = 'Shoe Warehouse';
-            $test_Store2 = new Store($name2);
-            $test_Store2->save();
+            $test_store2 = new Store($name2);
+            $test_store2->save();
 
             // Act
-            $id = $test_Store->getId();
+            $id = $test_store->getId();
             $result = Store::find($id);
 
             // Assert
-            $this->assertEquals($test_Store, $result);
+            $this->assertEquals($test_store, $result);
         }
 
         function test_update()
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
             $new_name = 'The Shoe-porium';
 
             // Act
-            $test_Store->update($new_name);
-            $result = $test_Store->getName();
+            $test_store->update($new_name);
+            $result = $test_store->getName();
 
             // Assert
             $this->assertEquals($new_name, $result);
@@ -124,43 +124,43 @@
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
             $name2 = 'Shoe Warehouse';
-            $test_Store2 = new Store($name2);
-            $test_Store2->save();
+            $test_store2 = new Store($name2);
+            $test_store2->save();
 
             // Act
-            $test_Store->delete();
+            $test_store->delete();
 
             // Assert
-            $this->assertEquals([$test_Store2], Store::getAll());
+            $this->assertEquals([$test_store2], Store::getAll());
         }
 
         function test_addBrand()
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
 
             $name2 = 'Nike';
             $test_brand = new Brand($name2);
             $test_brand->save();
 
             // Act
-            $test_Store->addBrand($test_brand);
+            $test_store->addBrand($test_brand);
 
             // Assert
-            $this->assertEquals([$test_brand], $test_Store->getBrands());
+            $this->assertEquals([$test_brand], $test_store->getBrands());
         }
 
-        function test_getBrand()
+        function test_getBrands()
         {
             // Arrange
             $name = 'Shoe-porium';
-            $test_Store = new Store($name);
-            $test_Store->save();
+            $test_store = new Store($name);
+            $test_store->save();
 
             $name2 = 'Nike';
             $test_brand = new Brand($name2);
@@ -171,9 +171,9 @@
             $test_brand2->save();
 
             // Act
-            $test_Store->addBrand($test_brand);
-            $test_Store->addBrand($test_brand2);
-            $brand_results = $test_Store->getBrands();
+            $test_store->addBrand($test_brand);
+            $test_store->addBrand($test_brand2);
+            $brand_results = $test_store->getBrands();
 
             // Assert
             $this->assertEquals([$test_brand, $test_brand2], $brand_results);
