@@ -63,6 +63,7 @@
         static function deleteAll()
         {
             $GLOBALS['DB']->query("DELETE FROM brands;");
+            $GLOBALS['DB']->query("DELETE FROM brands_stores;");
         }
 
         static function find($search_id)
