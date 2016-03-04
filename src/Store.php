@@ -42,19 +42,26 @@
             $GLOBALS['DB']->exec("DELETE FROM stores WHERE id = {$this->getId()};");
         }
 
-        // function getClients()
-        // {
-        //     $returned_clients = $GLOBALS['DB']->query("SELECT * FROM clients WHERE store_id = {$this->getId()};");
-        //     $clients = array();
-        //     foreach ($returned_clients as $client) {
-        //         $name = $client['name'];
-        //         $store_id = $client['store_id'];
-        //         $id = $client['id'];
-        //         $new_client = new Client($name, $store_id, $id);
-        //         array_push($clients, $new_client);
-        //     }
-        //     return $clients;
-        // }
+        function addBrand($brand)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$brand->getId()}, {$this->getId()});");
+        }
+
+        function getBrands()
+        {
+            $query = $GLOBALS['DB']->query("SELECT brands.* FROM
+                brands_stores JOIN brands ON(brands_stores.brand_id = brands.id )
+                WHERE store_id = {$this->getId()};");
+            $brands = $query->fetchAll(PDO::FETCH_ASSOC);
+            $results = array();
+            foreach ($brands as $brand) {
+                $name = $brand['name'];
+                $id = $brand['id'];
+                $new_brand = new Brand($name, $id);
+                array_push($results, $new_brand);
+            }
+            return $results;
+        }
 
         static function getAll()
         {
