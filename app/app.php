@@ -18,6 +18,7 @@
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
 
+    // home
     $app->get("/", function() use ($app) {
         return $app['twig']->render('index.html.twig', array(
             'navbar' => true,
@@ -36,6 +37,7 @@
         ));
     });
 
+    // store pages
     $app->get("/stores", function() use ($app) {
         return $app['twig']->render('stores.html.twig', array(
             'navbar' => true,
@@ -158,6 +160,7 @@
       ));
     });
 
+    // brand pages
     $app->get("/brands", function() use ($app) {
       return $app['twig']->render('brands.html.twig', array(
         'navbar' => true,
